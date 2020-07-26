@@ -179,7 +179,8 @@
                              (console :error err-header "expected pairs of :<- and vectors, got:" pairs))
                            (fn inp-fn
                              ([_] (map subscribe vecs))
-                             ([_ _] (map subscribe vecs)))))]
+                             ([_ _] (map subscribe vecs)))))
+        overwriting?   (some? (get-handler kind query-id))]
     (register-handler
       kind
       query-id
@@ -214,4 +215,8 @@
                                                      subscription))))]
 
            (reset! reaction-id (reagent-id reaction))
-           reaction))))))
+           reaction))))
+
+    ;; If subs are being overwritten we can't trust the subscription cache!
+    (when overwriting?
+      (clear-subscription-cache!))))
