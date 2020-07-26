@@ -37,7 +37,7 @@
   [kind id handler-fn]
   (when debug-enabled?                                       ;; This is in a separate when so Closure DCE can run
     (when (and (not (settings/loaded?)) (get-handler kind id false))
-      (console :warn "re-frame: overwriting" (str kind) "handler for:" id)))   ;; allow it, but warn. Happens on figwheel reloads.
+      #_(console :warn "re-frame: overwriting" (str kind) "handler for:" id)))   ;; allow it, but warn. Happens on figwheel reloads.
   (swap! kind->id->handler assoc-in [kind id] handler-fn)
   handler-fn)    ;; note: returns the just registered handler
 
